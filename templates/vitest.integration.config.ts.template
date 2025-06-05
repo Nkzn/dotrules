@@ -1,0 +1,58 @@
+import { defineConfig } from 'vitest/config';
+import path from 'path';
+
+export default defineConfig({
+  test: {
+    // 統合テストファイルのパターン
+    include: ['src/**/*.integration.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    
+    // テスト環境（vprismaを使用する場合）
+    environment: 'vprisma',
+    
+    // グローバル設定
+    globals: true,
+    
+    // モック設定
+    mockReset: true,
+    clearMocks: true,
+    restoreMocks: true,
+    
+    // 並列実行設定（統合テストは順次実行を推奨）
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true, // 統合テストはシングルスレッドで実行
+      },
+    },
+    
+    // タイムアウト設定（統合テストは長めに設定）
+    testTimeout: 30000,
+    hookTimeout: 30000,
+    
+    // カバレッジ設定
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './coverage/integration',
+    },
+    
+    // セットアップファイル
+    setupFiles: ['./vitest.integration.setup.ts'],
+    
+    // 最大並列数（統合テストは制限）
+    maxConcurrency: 1,
+  },
+  
+  // エイリアス設定
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './'),
+    },
+  },
+  
+  // esbuild設定
+  esbuild: {
+    target: 'node16',
+  },
+});

@@ -1,0 +1,76 @@
+import { defineConfig } from 'vitest/config';
+import path from 'path';
+
+export default defineConfig({
+  test: {
+    // テストファイルのパターン
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    exclude: ['src/**/*.integration.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    
+    // テスト環境
+    environment: 'node',
+    
+    // グローバル設定
+    globals: true,
+    
+    // モック設定
+    mockReset: true,
+    clearMocks: true,
+    restoreMocks: true,
+    
+    // 並列実行設定
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: false,
+      },
+    },
+    
+    // タイムアウト設定
+    testTimeout: 10000,
+    hookTimeout: 10000,
+    
+    // カバレッジ設定
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'coverage/**',
+        'dist/**',
+        '**/node_modules/**',
+        '**/[.]**',
+        'packages/*/test{,s}/**',
+        '**/*.d.ts',
+        '**/virtual:*',
+        '**/__x00__*',
+        '**/\x00*',
+        'cypress/**',
+        'test{,s}/**',
+        'test{,-*}.{js,cjs,mjs,ts,tsx,jsx}',
+        '**/*{.,-}test.{js,cjs,mjs,ts,tsx,jsx}',
+        '**/*{.,-}spec.{js,cjs,mjs,ts,tsx,jsx}',
+        '**/tests/**',
+        '**/__tests__/**',
+        '**/*.config.*',
+        '**/vitest.config.*',
+        '**/vite.config.*',
+      ],
+    },
+    
+    // セットアップファイル
+    setupFiles: ['./vitest.setup.ts'],
+  },
+  
+  // エイリアス設定
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './'),
+    },
+  },
+  
+  // esbuild設定（TypeScript用）
+  esbuild: {
+    target: 'node16',
+  },
+});

@@ -1,0 +1,43 @@
+import { vi } from 'vitest';
+
+// 統合テスト用セットアップ
+
+// 外部APIクライアントのモック（統合テストでもモック化）
+vi.mock('@/lib/external-api-client', () => ({
+  ExternalApiClient: vi.fn().mockImplementation(() => ({
+    fetchData: vi.fn().mockResolvedValue({
+      success: true,
+      data: { id: 1, name: 'Test Data' }
+    }),
+    sendData: vi.fn().mockResolvedValue({ success: true }),
+    updateData: vi.fn().mockResolvedValue({ success: true }),
+    deleteData: vi.fn().mockResolvedValue({ success: true }),
+  })),
+}));
+
+// 環境変数の設定（統合テスト用）
+process.env.NODE_ENV = 'test';
+process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || 'postgresql://test:test@localhost:5432/test_db';
+
+// グローバルセットアップ（統合テスト開始前）
+beforeAll(async () => {
+  // 必要に応じてテスト用データベースの初期化
+  console.log('🧪 統合テスト環境を初期化中...');
+});
+
+// グローバルクリーンアップ（統合テスト終了後）
+afterAll(async () => {
+  // 必要に応じてリソースのクリーンアップ
+  console.log('🧹 統合テスト環境をクリーンアップ中...');
+});
+
+// 各テストファイル実行前のセットアップ
+beforeEach(() => {
+  // モックの状態をリセット
+  vi.clearAllMocks();
+});
+
+// 各テストファイル実行後のクリーンアップ
+afterEach(() => {
+  // 必要に応じて追加のクリーンアップ
+});

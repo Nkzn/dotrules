@@ -1,0 +1,38 @@
+import { vi } from 'vitest';
+
+// グローバルモック設定
+// 外部APIクライアントのモック例
+vi.mock('@/lib/external-api-client', () => ({
+  ExternalApiClient: vi.fn().mockImplementation(() => ({
+    fetchData: vi.fn().mockResolvedValue({ success: true }),
+    sendData: vi.fn().mockResolvedValue({ success: true }),
+    updateData: vi.fn().mockResolvedValue({ success: true }),
+    deleteData: vi.fn().mockResolvedValue({ success: true }),
+  })),
+}));
+
+// 環境変数のモック
+vi.mock('@/utils/env-utils', () => ({
+  getEnvVar: vi.fn((key: string, defaultValue?: string) => {
+    const mockEnvVars: Record<string, string> = {
+      NODE_ENV: 'test',
+      DATABASE_URL: 'mock-database-url',
+      API_KEY: 'mock-api-key',
+    };
+    return mockEnvVars[key] || defaultValue || '';
+  }),
+}));
+
+// Prismaクライアントのモック（ユニットテスト用）
+vi.mock('@prisma/client', () => ({
+  PrismaClient: vi.fn().mockImplementation(() => ({})),
+}));
+
+// 日付関連のモック
+const mockDate = new Date('2025-01-01T00:00:00.000Z');
+vi.setSystemTime(mockDate);
+
+// コンソール出力の抑制（必要に応じて）
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});

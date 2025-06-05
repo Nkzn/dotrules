@@ -1,0 +1,100 @@
+# CLAUDE.md
+
+このファイルは、Claude Code (claude.ai/code) がこのリポジトリのコードを扱う際のガイダンスを提供します。
+
+## プロジェクト概要
+
+[プロジェクトの説明をここに記載]
+
+## アーキテクチャ
+
+[技術スタック・アーキテクチャをここに記載]
+
+## ベストプラクティス参照
+
+このプロジェクトは [dotrules](https://github.com/Nkzn/dotrules) のベストプラクティスに従って開発されています：
+
+- [テスト戦略](PATH_TO_DOTRULES/best-practices/testing-strategy-best-practices.md)
+- [HonoXパターン](PATH_TO_DOTRULES/best-practices/honox-best-practices.md)
+- [Prismaガイドライン](PATH_TO_DOTRULES/best-practices/prisma-best-practices.md)
+- [開発ワークフロー](PATH_TO_DOTRULES/best-practices/development-commit-strategy.md)
+
+> **注意**: `PATH_TO_DOTRULES` を実際のdotrulesディレクトリへのパスに置き換えてください
+> 例: `../dotrules` または `~/dev/dotrules` など
+
+## 開発コマンド
+
+```bash
+# 開発サーバー起動
+npm run dev
+
+# ビルド
+npm run build
+
+# テスト実行
+npm run test        # ユニットテスト
+npm run test:integration  # 統合テスト
+
+# 品質チェック
+npm run lint
+npm run typecheck
+```
+
+## 環境セットアップ
+
+1. 依存関係のインストール
+```bash
+npm install
+```
+
+2. 環境変数の設定
+```bash
+cp .env.example .env
+# .envファイルを編集
+```
+
+3. データベースセットアップ（Prismaプロジェクトの場合）
+```bash
+npm run prisma:generate
+npm run prisma:migrate
+```
+
+## 主要ファイルの場所
+
+- エントリーポイント: `[メインファイルのパス]`
+- 設定ファイル: `[設定ファイルのパス]`
+- データベーススキーマ: `[Prismaスキーマのパス]`（該当する場合）
+
+## プロジェクト固有のガイドライン
+
+### ドメイン固有のルール
+
+[プロジェクト固有のビジネスルールやドメイン知識をここに記載]
+
+### コーディング規約
+
+[プロジェクト固有のコーディング規約があればここに記載]
+
+### 技術的な制約・注意事項
+
+[特別な技術的制約や注意事項があればここに記載]
+
+## チーム・コラボレーション
+
+### レビュー観点
+
+[コードレビューで重視する観点があればここに記載]
+
+### デプロイメント
+
+[デプロイ手順や注意事項があればここに記載]
+
+## トラブルシューティング
+
+### よくある問題
+
+[よくある問題とその解決方法をここに記載]
+
+---
+
+**このテンプレートを使用する際は、[]で囲まれた部分をプロジェクト固有の内容に置き換えてください。**

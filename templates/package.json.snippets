@@ -1,0 +1,237 @@
+# package.json スニペット集
+
+このファイルには、dotrulesベストプラクティスに従ったプロジェクトで使用する推奨のpackage.jsonスクリプトとdependenciesを記載しています。
+
+## 推奨スクリプト
+
+### 基本的な開発スクリプト
+
+```json
+{
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist coverage .turbo"
+  }
+}
+```
+
+### テストスクリプト
+
+```json
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:integration:watch": "vitest --config vitest.integration.config.ts",
+    "test:all": "npm run test && npm run test:integration",
+    "test:coverage": "vitest run --coverage",
+    "test:coverage:integration": "vitest run --coverage --config vitest.integration.config.ts"
+  }
+}
+```
+
+### 品質チェックスクリプト
+
+```json
+{
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "quality": "npm run lint && npm run typecheck && npm run test:all"
+  }
+}
+```
+
+### Prisma関連スクリプト
+
+```json
+{
+  "scripts": {
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:reset": "prisma migrate reset --force",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "db:setup": "npm run prisma:migrate && npm run prisma:generate && npm run prisma:seed"
+  }
+}
+```
+
+### HonoX関連スクリプト
+
+```json
+{
+  "scripts": {
+    "dev": "honox dev",
+    "build": "honox build",
+    "start": "honox start",
+    "serve": "honox serve"
+  }
+}
+```
+
+## 推奨 devDependencies
+
+### テスト関連
+
+```json
+{
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "vitest-environment-vprisma": "^1.0.0",
+    "prisma-fabbrica": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
+```
+
+### コード品質
+
+```json
+{
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "prettier": "^3.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
+  }
+}
+```
+
+### Prisma関連
+
+```json
+{
+  "devDependencies": {
+    "prisma": "^6.0.0",
+    "@prisma/client": "^6.0.0",
+    "tsx": "^4.0.0"
+  }
+}
+```
+
+### HonoX関連
+
+```json
+{
+  "devDependencies": {
+    "honox": "^0.1.0",
+    "hono": "^4.0.0",
+    "@hono/vite-dev-server": "^0.1.0",
+    "vite": "^5.0.0"
+  }
+}
+```
+
+## 完全なpackage.json例
+
+### HonoX + Prisma + Vitest プロジェクト
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "honox dev",
+    "build": "honox build",
+    "start": "honox start",
+    "serve": "honox serve",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:all": "npm run test && npm run test:integration",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "quality": "npm run lint && npm run typecheck && npm run test:all",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "db:setup": "npm run prisma:migrate && npm run prisma:generate"
+  },
+  "dependencies": {
+    "hono": "^4.0.0",
+    "@prisma/client": "^6.0.0"
+  },
+  "devDependencies": {
+    "honox": "^0.1.0",
+    "@hono/vite-dev-server": "^0.1.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "vitest-environment-vprisma": "^1.0.0",
+    "prisma-fabbrica": "^2.0.0",
+    "prisma": "^6.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "prettier": "^3.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+```
+
+### 汎用TypeScriptプロジェクト
+
+```json
+{
+  "name": "my-typescript-project",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "quality": "npm run lint && npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "prettier": "^3.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+```
+
+## 使用方法
+
+1. 上記のスニペットから必要な部分をコピー
+2. プロジェクトのpackage.jsonに追加・統合
+3. バージョンは最新版に調整
+4. プロジェクトの要件に合わせてカスタマイズ
